@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Previous Tenant — Text Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell" aria-labelledby="game-title">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Text prototype · Cycle <span id="cycle-count">1</span></p>
+        <h1 id="game-title">The Previous Tenant</h1>
+      </div>
+      <button id="reset-button" class="quiet-button" type="button">Reset progress</button>
+    </header>
+
+    <section class="scene-card" aria-live="polite">
+      <img id="scene-image" src="" alt="">
+      <div class="scene-shade" aria-hidden="true"></div>
+      <div class="scene-copy">
+        <p id="scene-kicker" class="eyebrow"></p>
+        <h2 id="scene-title"></h2>
+        <p id="scene-description" class="scene-description"></p>
+      </div>
+    </section>
+
+    <div class="play-area">
+      <section aria-labelledby="actions-title">
+        <h2 id="actions-title" class="section-title">What do you do?</h2>
+        <div id="actions" class="action-list"></div>
+      </section>
+
+      <aside aria-labelledby="inventory-title">
+        <h2 id="inventory-title" class="section-title">Inventory</h2>
+        <p id="inventory-help" class="inventory-help">Find an item, select it, then choose a highlighted target.</p>
+        <div id="inventory" class="inventory"></div>
+      </aside>
+    </div>
+
+    <section class="story-log" aria-labelledby="log-title">
+      <div class="log-header">
+        <h2 id="log-title" class="section-title">Story</h2>
+        <button id="clear-log-button" class="text-button" type="button">Clear text</button>
+      </div>
+      <div id="story-log" tabindex="0"></div>
+    </section>
+  </main>
+
+  <dialog id="confirm-dialog">
+    <form method="dialog">
+      <h2>Rest for the night?</h2>
+      <p>The light outside is fading. Something shifts beyond the door.</p>
+      <div class="dialog-actions">
+        <button value="cancel" class="quiet-button">Stay awake</button>
+        <button value="confirm" class="danger-button">Rest</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="ending-dialog">
+    <div>
+      <p id="ending-kicker" class="eyebrow"></p>
+      <h2 id="ending-title"></h2>
+      <div id="ending-text"></div>
+      <button id="ending-button" class="primary-button" type="button"></button>
+    </div>
+  </dialog>
+
+  <dialog id="cinematic-dialog" class="cinematic-dialog">
+    <div class="cinematic-panel">
+      <img id="cinematic-image" alt="" />
+      <div class="cinematic-copy">
+        <p id="cinematic-speaker" class="eyebrow"></p>
+        <p id="cinematic-text"></p>
+        <button id="cinematic-button" class="primary-button" type="button">Continue</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="game.js"></script>
+</body>
+</html>

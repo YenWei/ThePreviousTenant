@@ -1,0 +1,18 @@
+{
+  "modelId": "eleven_v3",
+  "outputFormat": "mp3_44100_128",
+  "characters": {
+    "chief": {
+      "voiceIdEnv": "CHIEF_VOICE_ID"
+    },
+    "ghost": {
+      "voiceIdEnv": "GHOST_VOICE_ID"
+    },
+    "kid": {
+      "voiceIdEnv": "KID_VOICE_ID"
+    },
+    "exorcist": {
+      "voiceIdEnv": "EXORCIST_VOICE_ID"
+    }
+  }
+}

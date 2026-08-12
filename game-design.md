@@ -16,6 +16,44 @@ Target experience:
 
 The player has no voice. Player choices appear as text actions.
 
+### Product and engineering positioning
+
+This project is intentionally a small, authored game with a bounded AI feature. It is not an attempt to turn every character into an open-ended conversational agent.
+
+Most dialogue is pre-generated with ElevenLabs and committed as game assets. This is a deliberate production choice:
+
+- The narrative and puzzle require specific information to appear at specific moments.
+- Pre-generated audio gives predictable pacing, repeatable performances, instant playback, and reliable offline fallback.
+- It avoids paying repeatedly for dialogue whose content does not change.
+- It prevents an LLM from contradicting puzzle rules, revealing secrets early, or changing character intent.
+- It makes the cloned repository playable without requiring visitors to supply credentials.
+
+The hidden ending contains one bounded live path:
+
+1. The browser sends a small allowlisted summary of player behavior to the local backend.
+2. An LLM writes one contextual exorcist line of no more than 15 words.
+3. The backend validates the response.
+4. ElevenLabs generates the line with the developer's permitted Instant Voice Clone.
+5. The game plays a pre-generated fallback if either service is unavailable.
+
+This feature exists to demonstrate orchestration, validation, secret handling, latency awareness, cost control, caching, and graceful degradation. The value is not the quantity of API calls; it is choosing where generation materially changes the player experience.
+
+The repository must not imply that anonymous users can access the developer's credentials. A local user may configure their own credentials to run live generation. The default cloned experience remains complete through committed audio and fallback behavior. A spoiler-marked README video may document the live hidden-ending path after it has been run successfully.
+
+### Success standard
+
+The demo is strong enough for the intended application when it truthfully demonstrates:
+
+- A complete, understandable three-ending game
+- Purposeful Voice Design and delivery control
+- Secure local API usage with secrets excluded from Git
+- A permitted Instant Voice Clone used for the exorcist
+- One tested LLM-to-ElevenLabs runtime path
+- Validation, timeout, caching, and fallback decisions that can be explained clearly
+- Documentation that distinguishes implemented behavior from planned or optional work
+
+Additional API calls, unrestricted NPC chat, extensive animation, and a hosted production service are not measures of success for this prototype.
+
 ## 2. Narrative truth
 
 ### The village
@@ -440,9 +478,14 @@ Do not generate final audio until the text-only game is playable and every dialo
 - [x] Three endings defined
 - [x] Cycle persistence defined
 - [x] Required dialogue inventory defined
+- [x] Text-only prototype implemented
+- [x] Three scene backgrounds integrated
+- [x] Cat-present and cat-departed village states implemented
 - [ ] Exact ghost origin finalized, if needed for dialogue
 - [ ] Exact visual transformation of cat decided
 - [ ] Final dialogue written
-- [ ] Text-only prototype implemented
+- [ ] Required ElevenLabs audio generated and integrated
+- [ ] Live hidden-ending pipeline implemented and tested
+- [ ] Repository security, fallback behavior, and README verified
 
 The unresolved ghost history and cat transformation can remain deliberately ambiguous until they affect a required line or visual asset.

@@ -1,0 +1,20 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.video-venv/
+.video-frames/
+
+# Runtime-generated audio and caches
+audio/runtime/
+.audio-cache/
+demo-video.mp4
+
+# OS/editor files
+.DS_Store
+*.swp

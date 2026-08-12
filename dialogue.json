@@ -1,0 +1,357 @@
+{
+  "version": 1,
+  "status": "approved",
+  "characters": {
+    "exorcist": {
+      "voiceSource": "user_instant_voice_clone",
+      "status": "approved",
+      "direction": "Calm, authoritative, dry, concise; never theatrical.",
+      "lines": [
+        {
+          "id": "exorcist-reveal",
+          "trigger": "hidden_ending_started",
+          "required": true,
+          "deliveryTag": "[calmly]",
+          "text": "At last. I was beginning to think no one would notice the bell.",
+          "filename": "audio/exorcist/reveal.mp3"
+        },
+        {
+          "id": "exorcist-dynamic",
+          "trigger": "after_exorcist_reveal",
+          "required": true,
+          "generation": "runtime",
+          "text": null,
+          "constraints": {
+            "maximumWords": 15,
+            "singleLine": true,
+            "usesOnlySuppliedGameState": true,
+            "noActionNarration": true,
+            "noQuotationMarks": true
+          }
+        },
+        {
+          "id": "exorcist-fallback",
+          "trigger": "runtime_generation_failed",
+          "required": true,
+          "fallbackFor": "exorcist-dynamic",
+          "deliveryTag": "[calmly]",
+          "text": "You saw the pattern. That will have to be enough.",
+          "filename": "audio/exorcist/fallback.mp3"
+        }
+      ]
+    },
+    "ghost": {
+      "voiceSource": "voice_design",
+      "status": "approved",
+      "requiredAudioStatus": "locked",
+      "direction": "Adult supernatural voice; controlled, intimate and cold rather than theatrical. Anger surfaces only when the exorcist seals it.",
+      "lines": [
+        {
+          "id": "ghost-bell-exposed",
+          "trigger": "bell_used_on_kid",
+          "required": true,
+          "deliveryTag": "[quietly]",
+          "text": "So the bell still remembers me.",
+          "generationText": "[distant, hollow, drawing closer] So… the bell still remembers me.",
+          "filename": "audio/ghost/bell-exposed.mp3"
+        },
+        {
+          "id": "ghost-rest-approach",
+          "trigger": "rest_ending_approach",
+          "required": true,
+          "deliveryTag": "[softly]",
+          "text": "You should have listened when the footsteps stopped.",
+          "generationText": "[softly, close behind the listener] You should have listened when the footsteps stopped.",
+          "filename": "audio/ghost/rest-approach.mp3"
+        },
+        {
+          "id": "ghost-consumption",
+          "trigger": "rest_ending_consumption",
+          "required": true,
+          "deliveryTag": "[coldly]",
+          "text": "Don't be afraid. The house keeps what the village gives it.",
+          "generationText": "[almost comforting, with quiet hunger] Don't be afraid. The house keeps what the village gives it.",
+          "filename": "audio/ghost/consumption.mp3"
+        },
+        {
+          "id": "ghost-key-released",
+          "trigger": "key_used_on_kid",
+          "required": true,
+          "deliveryTag": "[with quiet satisfaction]",
+          "text": "At last… you opened the wrong cage.",
+          "generationText": "[relieved, darkly satisfied] At last… you opened the wrong cage.",
+          "filename": "audio/ghost/key-released.mp3"
+        },
+        {
+          "id": "ghost-chief-release",
+          "trigger": "key_used_on_chief",
+          "required": true,
+          "deliveryTag": "[calmly]",
+          "text": "Another name for the house. Our bargain holds.",
+          "generationText": "[calm, with layered resonance] Another name for the house. Our bargain holds.",
+          "filename": "audio/ghost/chief-release.mp3"
+        },
+        {
+          "id": "ghost-hidden-confrontation",
+          "trigger": "exorcist_revealed",
+          "required": true,
+          "deliveryTag": "[recognizing]",
+          "text": "You… you again. Even death could not teach you to leave me buried.",
+          "generationText": "[stunned to recognize an old enemy, then filling with bitter, wounded hatred] You… you again. Even death could not teach you to leave me buried.",
+          "filename": "audio/ghost/hidden-confrontation.mp3"
+        },
+        {
+          "id": "ghost-hidden-sealed",
+          "trigger": "exorcist_seals_ghost",
+          "required": true,
+          "deliveryTag": "[furiously]",
+          "text": "No—no, NO! You cannot bind me to their silence again!",
+          "generationText": "[panicked, speaking quickly and struggling as an unseen force drags the voice away] No—no, NO! You cannot bind me to their silence again!",
+          "filename": "audio/ghost/hidden-sealed.mp3"
+        }
+      ]
+    },
+    "kid": {
+      "voiceSource": "elevenlabs_voice_library",
+      "status": "approved",
+      "audioStatus": "required_locked",
+      "generationEnabled": false,
+      "audioDecision": "The four required lines use a suitable existing ElevenLabs Voice Library voice. Voice Design remained unused after its child-character prompts were blocked. Optional lines remain text-only, and all supernatural speech belongs to the adult ghost.",
+      "direction": "Natural, curious and slightly uneasy; never threatening. Possession speech always switches to the adult ghost.",
+      "lines": [
+        {
+          "id": "kid-greeting-1",
+          "trigger": "greet_first",
+          "required": true,
+          "deliveryTag": "[curiously]",
+          "text": "You're the new tenant. I wondered when you'd arrive.",
+          "filename": "audio/kid/greeting-1.mp3"
+        },
+        {
+          "id": "kid-greeting-2",
+          "trigger": "greet_second",
+          "required": false,
+          "deliveryTag": "[casually]",
+          "text": "You haven't gone inside yet?",
+          "filename": "audio/kid/greeting-2.mp3"
+        },
+        {
+          "id": "kid-greeting-repeat",
+          "trigger": "greet_third_or_later",
+          "required": false,
+          "deliveryTag": "[quietly]",
+          "text": "Are you waiting for something?",
+          "filename": "audio/kid/greeting-repeat.mp3"
+        },
+        {
+          "id": "kid-house-1",
+          "trigger": "ask_house_first",
+          "required": true,
+          "deliveryTag": "[hesitant]",
+          "text": "If you hear walking after dark, don't answer the door.",
+          "filename": "audio/kid/house-1.mp3"
+        },
+        {
+          "id": "kid-house-2",
+          "trigger": "ask_house_second",
+          "required": false,
+          "deliveryTag": "[quietly]",
+          "text": "I used to go inside. I don't anymore.",
+          "filename": "audio/kid/house-2.mp3"
+        },
+        {
+          "id": "kid-house-repeat",
+          "trigger": "ask_house_third_or_later",
+          "required": false,
+          "deliveryTag": "[uncertain]",
+          "text": "You should ask the chief. He knows more about it.",
+          "filename": "audio/kid/house-repeat.mp3"
+        },
+        {
+          "id": "kid-cat-1",
+          "trigger": "ask_cat_first",
+          "required": true,
+          "deliveryTag": "[matter-of-factly]",
+          "text": "It watches me every day. I don't think it likes what it sees.",
+          "filename": "audio/kid/cat-1.mp3"
+        },
+        {
+          "id": "kid-cat-2",
+          "trigger": "ask_cat_second",
+          "required": false,
+          "deliveryTag": "[curiously]",
+          "text": "It was digging at the wall again, wasn't it?",
+          "filename": "audio/kid/cat-2.mp3"
+        },
+        {
+          "id": "kid-cat-repeat",
+          "trigger": "ask_cat_third_or_later",
+          "required": false,
+          "deliveryTag": "[softly]",
+          "text": "Maybe it's waiting for me to understand.",
+          "filename": "audio/kid/cat-repeat.mp3"
+        },
+        {
+          "id": "kid-hidden-ending",
+          "trigger": "kid_freed",
+          "required": true,
+          "deliveryTag": "[quietly]",
+          "text": "It's quiet. I don't think I've ever heard it this quiet.",
+          "filename": "audio/kid/hidden-ending.mp3"
+        }
+      ],
+      "nonSpokenEvents": [
+        {
+          "id": "kid-bell-reaction",
+          "trigger": "bell_used_on_kid",
+          "text": "The kid recoils as the bell rings. A tall adult shadow rises behind them.",
+          "nextSpeaker": "ghost"
+        }
+      ]
+    },
+    "chief": {
+      "voiceSource": "voice_design",
+      "status": "approved",
+      "requiredAudioStatus": "locked",
+      "direction": "Polite, controlled, intelligent and morally ambiguous; suspicion emerges gradually.",
+      "lines": [
+        {
+          "id": "chief-arrival-1",
+          "trigger": "cycle_1_arrival",
+          "required": true,
+          "deliveryTag": "[pleasantly]",
+          "text": "Ah—you must be the new tenant. Your room is ready. The house is just up the path.",
+          "generationText": "[pleasantly surprised] Ah—you must be the new tenant. [reassuring] Your room is ready. [quietly amused] The house is just up the path.",
+          "filename": "audio/chief/arrival-1.mp3"
+        },
+        {
+          "id": "chief-arrival-loop",
+          "trigger": "cycle_2_or_later_arrival",
+          "required": true,
+          "deliveryTag": "[calmly]",
+          "text": "Ah… another tenant. The house has been prepared again. You may go up whenever you're ready.",
+          "generationText": "[pleasantly surprised] Ah… another tenant. [quietly pleased] The house has been prepared again. [brightly, ushering them onward] You may go up whenever you're ready.",
+          "filename": "audio/chief/arrival-loop.mp3"
+        },
+        {
+          "id": "chief-greeting-2",
+          "trigger": "greet_second",
+          "required": false,
+          "deliveryTag": "[politely]",
+          "text": "I trust you found everything you need.",
+          "filename": "audio/chief/greeting-2.mp3"
+        },
+        {
+          "id": "chief-greeting-repeat",
+          "trigger": "greet_third_or_later",
+          "required": false,
+          "deliveryTag": "[patiently]",
+          "text": "The house is waiting. You should settle in before dark.",
+          "filename": "audio/chief/greeting-repeat.mp3"
+        },
+        {
+          "id": "chief-previous-tenant-1",
+          "trigger": "ask_previous_tenant_first",
+          "required": true,
+          "deliveryTag": "[lightly]",
+          "text": "Travellers rarely stay long. I've learned not to ask where the road takes them next.",
+          "generationText": "[lightly dismissive] Travellers rarely stay long. [chuckles softly] [with playful indifference] I've learned not to ask where the road takes them next.",
+          "filename": "audio/chief/previous-tenant-1.mp3"
+        },
+        {
+          "id": "chief-previous-tenant-2",
+          "trigger": "ask_previous_tenant_second",
+          "required": false,
+          "deliveryTag": "[calmly]",
+          "text": "They left before dawn. That is all I can tell you.",
+          "filename": "audio/chief/previous-tenant-2.mp3"
+        },
+        {
+          "id": "chief-previous-tenant-repeat",
+          "trigger": "ask_previous_tenant_third_or_later",
+          "required": false,
+          "deliveryTag": "[firmly]",
+          "text": "You should concern yourself with your own stay.",
+          "filename": "audio/chief/previous-tenant-repeat.mp3"
+        },
+        {
+          "id": "chief-house-1",
+          "trigger": "ask_house_first",
+          "required": true,
+          "deliveryTag": "[reassuringly]",
+          "text": "Old houses make old sounds. You'll find it comfortable once you stop listening to every creak.",
+          "generationText": "[reassuringly] Old houses make old sounds. [chuckles softly] [gently teasing] You'll find it comfortable… once you stop listening to every creak.",
+          "filename": "audio/chief/house-1.mp3"
+        },
+        {
+          "id": "chief-house-2",
+          "trigger": "ask_house_second",
+          "required": false,
+          "deliveryTag": "[lightly]",
+          "text": "A little wind gets beneath the doors. Nothing more.",
+          "filename": "audio/chief/house-2.mp3"
+        },
+        {
+          "id": "chief-house-repeat",
+          "trigger": "ask_house_third_or_later",
+          "required": false,
+          "deliveryTag": "[patiently]",
+          "text": "You'll understand once you've spent a night there.",
+          "filename": "audio/chief/house-repeat.mp3"
+        },
+        {
+          "id": "chief-cat-1",
+          "trigger": "ask_cat_first",
+          "required": true,
+          "deliveryTag": "[dismissively]",
+          "text": "That creature? A stray—with an unfortunate interest in that wall.",
+          "generationText": "[dismissively] That creature? [dryly amused] A stray—with an unfortunate interest in that wall.",
+          "filename": "audio/chief/cat-1.mp3"
+        },
+        {
+          "id": "chief-cat-2",
+          "trigger": "ask_cat_second",
+          "required": false,
+          "deliveryTag": "[dryly]",
+          "text": "It has been digging there for days. It never finds anything.",
+          "filename": "audio/chief/cat-2.mp3"
+        },
+        {
+          "id": "chief-cat-repeat",
+          "trigger": "ask_cat_third_or_later",
+          "required": false,
+          "deliveryTag": "[firmly]",
+          "text": "Leave it alone. It will move when it tires.",
+          "filename": "audio/chief/cat-repeat.mp3"
+        },
+        {
+          "id": "chief-bell-reaction",
+          "trigger": "bell_used_on_chief",
+          "required": true,
+          "deliveryTag": "[sharply]",
+          "text": "Put that away. Some things are buried because they should remain forgotten.",
+          "generationText": "[startled, suddenly alarmed] Put that AWAY! [breathes in, regaining composure] [low and firm] Some things are buried… because they should remain forgotten.",
+          "filename": "audio/chief/bell-reaction.mp3"
+        },
+        {
+          "id": "chief-key-reaction",
+          "trigger": "key_used_on_chief",
+          "required": true,
+          "deliveryTag": "[quietly]",
+          "text": "Ah… I had hoped you would simply go to sleep. Give me the key.",
+          "generationText": "[quietly disappointed] Ah… I had hoped you would simply go to sleep. [tone hardens] Give me the key.",
+          "filename": "audio/chief/key-reaction.mp3"
+        },
+        {
+          "id": "chief-good-ending",
+          "trigger": "door_sealed",
+          "required": true,
+          "deliveryTag": "[coldly]",
+          "text": "What have you done? You have saved yourself. Do not mistake that for saving anyone else.",
+          "generationText": "[stunned, under his breath] What have you done? [brief pause] [coldly, regaining control] You have saved yourself. [with restrained contempt] Do not mistake that… for saving anyone else.",
+          "filename": "audio/chief/good-ending.mp3"
+        }
+      ]
+    }
+  }
+}

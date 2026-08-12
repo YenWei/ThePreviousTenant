@@ -1,10 +1,29 @@
 # The Previous Tenant
 
-**The Previous Tenant** is a compact, replayable browser mystery built as an ElevenLabs voice demo. You arrive in a village that seems to have been expecting you, explore an unsettling rented house, and learn from failed cycles until you can uncover its hidden ending.
+**The Previous Tenant** is a browser-based mystery game exploring practical voice AI integration patterns using ElevenLabs. You arrive in a village that seems to have been expecting you, explore an unsettling rented house, and learn from failed cycles until you can uncover its hidden ending.
 
-## The idea
+## Demo
 
-The original concept was more technically ambitious: every NPC would run through an LLM during play, generate a response from the current game state, and send that response to the ElevenLabs API for voice acting. That would have made every conversation dynamically generated.
+The recording reveals the hidden ending. Play the game first if you want to solve it yourself.
+
+<details>
+<summary><strong>Watch the hidden-ending demo video (spoilers)</strong></summary>
+
+<br>
+
+[Watch the 63-second demo video](./the-previous-tenant-demo-v2.mp4)
+
+The demo showcases a hybrid voice architecture:
+
+- Authored ElevenLabs voices for story-critical dialogue and character identity.
+- Runtime-generated voice for a contextual hidden ending, spoken through an Instant Voice Clone of the developer's own voice.
+- A fallback path that keeps the experience playable when external services are unavailable.
+
+</details>
+
+## Why this architecture?
+
+The initial exploration considered a fully dynamic architecture: every NPC would run through an LLM during play, generate a response from the current game state, and send that response to the ElevenLabs API for voice acting. That would have made every conversation dynamically generated.
 
 While planning the playable demo, that approach created constraints that did not suit this particular mystery:
 
@@ -16,9 +35,9 @@ While planning the playable demo, that approach created constraints that did not
 
 The mystery also depends on controlled information: each character must reveal the right clue at the right time, retain a recognizable personality, and respond consistently across repeated cycles.
 
-The implementation was therefore narrowed into a hybrid design. The chief and ghost were created with ElevenLabs Voice Design, their main dialogue was authored and pre-generated, and important performances were directed and regenerated line by line. The village girl uses a suitable existing Voice Library voice. This makes voice an intentional part of the writing rather than a last-minute text-to-speech layer, playback begins immediately, and the game remains predictable enough to test.
+After evaluating those trade-offs, the project adopted a hybrid design. The chief and ghost were created with ElevenLabs Voice Design, their main dialogue was authored and pre-generated, and important performances were directed and regenerated line by line. The village girl uses a suitable existing Voice Library voice. This makes voice an intentional part of the writing rather than a last-minute text-to-speech layer, playback begins immediately, and the game remains predictable enough to test.
 
-The original LLM + API idea is still implemented, but reserved for the moment where variation has narrative meaning: the hidden ending. Once the player understands the cycles and completes the bell-and-key ritual, the released exorcist comments on the specific game state. The backend asks an LLM for one short line, validates it, and passes it to ElevenLabs using an **Instant Voice Clone of the developer's own voice**. The exorcist is not a Voice Design voice.
+The fully dynamic exploration still informs a real LLM + API path, deliberately reserved for the moment where variation has narrative meaning: the hidden ending. Once the player understands the cycles and completes the bell-and-key ritual, the released exorcist comments on the specific game state. The backend asks an LLM for one short line, validates it, and passes it to ElevenLabs using an **Instant Voice Clone of the developer's own voice**. The exorcist is not a Voice Design voice.
 
 This creates a deliberate contrast:
 
@@ -125,22 +144,7 @@ Never put credentials in `game.js`, `index.html`, screenshots, or committed file
 - `game-design.md` — complete narrative and interaction design
 - `PROJECT-POSITIONING.md` — scope and product reasoning
 
-## Spoiler demo video
-
-The recording reveals the hidden ending. Play the game first if you want to solve it yourself.
-
-<details>
-<summary><strong>Show the hidden-ending demo video (spoilers)</strong></summary>
-
-<br>
-
-[Watch the 63-second demo video](./the-previous-tenant-demo-v2.mp4)
-
-The recording includes a freshly generated line based on game state, followed by live ElevenLabs synthesis using an Instant Voice Clone of the developer's own voice.
-
-</details>
-
-## Notes
+## Additional considerations
 
 - This is a local prototype, not a hosted service.
 - Optional dialogue variations may remain text-only; all story-critical lines are voiced.

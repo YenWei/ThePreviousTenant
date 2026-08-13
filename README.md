@@ -36,7 +36,7 @@ A fallback line and audio clip are included so the ending remains playable when 
 
 <br>
 
-[Watch the 63-second showcase video](./the-previous-tenant-demo-v2.mp4)
+https://github.com/user-attachments/assets/5f4fa9dd-a5f5-45cc-824f-d394aea24571
 
 </details>
 

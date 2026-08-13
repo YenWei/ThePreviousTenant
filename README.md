@@ -1,6 +1,8 @@
 # The Previous Tenant
 
-**The Previous Tenant** is a browser-based mystery game exploring practical voice AI integration patterns using ElevenLabs. You arrive in a village that seems to have been expecting you, explore an unsettling rented house, and learn from failed cycles until you can uncover its hidden ending.
+**The Previous Tenant** is a browser-based mystery game exploring practical voice AI integration patterns using ElevenLabs.
+
+You arrive in a village that seems to have been expecting you, explore an unsettling rented house, and learn from failed cycles until you can uncover its hidden ending.
 
 ## Demo
 
@@ -13,64 +15,18 @@ The recording reveals the hidden ending. Play the game first if you want to solv
 
 [Watch the 63-second demo video](./the-previous-tenant-demo-v2.mp4)
 
-The demo showcases a hybrid voice architecture:
-
-- Authored ElevenLabs voices for story-critical dialogue and character identity.
-- Runtime-generated voice for a contextual hidden ending, spoken through an Instant Voice Clone of the developer's own voice.
-- A fallback path that keeps the experience playable when external services are unavailable.
-
 </details>
 
-## Why this architecture?
+## Try it yourself
 
-The initial exploration considered a fully dynamic architecture: every NPC would run through an LLM during play, generate a response from the current game state, and send that response to the ElevenLabs API for voice acting. That would have made every conversation dynamically generated.
-
-While planning the playable demo, that approach created constraints that did not suit this particular mystery:
-
-- Every interaction would inherit two network calls and noticeable response latency.
-- Repeated live speech generation would increase cost without making every line more meaningful.
-- Open-ended responses could reveal clues too early, contradict established facts, or weaken the repeatable puzzle structure.
-- Voice delivery and character personality would be harder to direct, compare, regenerate, and test consistently.
-- Anyone cloning the repository would need to configure two paid services before hearing the intended performances.
-
-The mystery also depends on controlled information: each character must reveal the right clue at the right time, retain a recognizable personality, and respond consistently across repeated cycles.
-
-After evaluating those trade-offs, the project adopted a hybrid design. The chief and ghost were created with ElevenLabs Voice Design, their main dialogue was authored and pre-generated, and important performances were directed and regenerated line by line. The village girl uses a suitable existing Voice Library voice. This makes voice an intentional part of the writing rather than a last-minute text-to-speech layer, playback begins immediately, and the game remains predictable enough to test.
-
-The fully dynamic exploration still informs a real LLM + API path, deliberately reserved for the moment where variation has narrative meaning: the hidden ending. Once the player understands the cycles and completes the bell-and-key ritual, the released exorcist comments on the specific game state. The backend asks an LLM for one short line, validates it, and passes it to ElevenLabs using an **Instant Voice Clone of the developer's own voice**. The exorcist is not a Voice Design voice.
-
-This creates a deliberate contrast:
-
-- **Authored, pre-generated speech** carries the mystery, character identity, pacing, and emotional continuity.
-- **Runtime generation** rewards the player's discovery with a contextual line that could not be fully authored in advance.
-- **A fixed fallback** ensures the climax still works when credentials, network access, or either provider is unavailable.
-
-The design goal is not to maximize API calls. It is to demonstrate where generated voice improves the experience—and where a deterministic performance is the better product decision.
-
-In practice:
-
-- Authored dialogue and pre-generated ElevenLabs audio keep the main story reliable, responsive, and consistent.
-- Repeat interactions rotate through alternate text instead of replaying one response forever.
-- One bounded hidden-ending line is written from the current game state at runtime.
-- That line is validated, limited to 15 words, and spoken through an ElevenLabs Instant Voice Clone.
-- A committed fallback line and audio clip keep the ending playable when either API is unavailable.
-
-## Quick start
-
-No credentials or server process are required for the fallback version:
+No credentials or server process are required for the playable fallback version.
 
 1. Clone or download the repository.
 2. Open `index.html` in a modern browser.
 
-The complete story, committed character audio, cinematics, and fixed hidden-ending fallback all work locally. The live generated exorcist line is the only feature that requires API credentials and `server.py`.
+The complete story, committed character audio, cinematics, and fixed hidden-ending fallback all work locally.
 
-Some browsers apply stricter rules to pages opened through `file://`. If local audio or saved progress is restricted, serve the same static files with Python:
-
-```bash
-python3 -m http.server 8080
-```
-
-Then open <http://localhost:8080>. This remains fallback mode and does not use either API.
+Some browsers apply stricter rules to pages opened through `file://`. If local audio or saved progress is restricted, run `python3 -m http.server 8080` and open <http://localhost:8080>.
 
 ## Controls
 
@@ -79,6 +35,20 @@ Then open <http://localhost:8080>. This remains fallback mode and does not use e
 - Revisit people and clues across cycles; failed endings reveal new information.
 - Use **Skip** during cinematics or wait for each voiced line to finish.
 - **Reset progress** clears persistent cycle discoveries.
+
+## Why this architecture?
+
+The initial exploration considered a fully dynamic approach where every NPC dialogue would be generated at runtime through an LLM and ElevenLabs.
+
+After evaluating the trade-offs, the project adopted a hybrid voice architecture:
+
+- Pre-generated ElevenLabs audio for story-critical dialogue, character identity, and consistent pacing.
+- Runtime-generated voice for the hidden ending, where variation adds meaningful value.
+- Fallback content to keep the experience playable when external services are unavailable.
+
+This approach balances creative flexibility with reliability, latency, cost, and narrative control.
+
+The goal is not to maximize API calls. It is to demonstrate where generated voice improves the experience—and where a deterministic performance creates a better product.
 
 ## Voice and narrative design
 
@@ -89,23 +59,19 @@ Then open <http://localhost:8080>. This remains fallback mode and does not use e
 | Village girl | Existing Voice Library performance; natural dialogue only |
 | Exorcist | Instant Voice Clone of the developer's own voice; fixed reveal plus one runtime-generated line |
 
-The girl and the possessing ghost always use separate voices. Most dialogue is pre-generated because the narrative benefits more from intentional delivery, predictable cost, and immediate playback than from unrestricted generation.
-
 ## Live hidden-ending pipeline
 
 ```text
 Game state
   → local Python server
-  → OpenAI Responses API (one line, maximum 15 words)
+  → OpenAI Responses API
   → validation
-  → ElevenLabs text-to-speech using the developer's own Instant Voice Clone
+  → ElevenLabs text-to-speech
   → browser playback
 
 Any failure
   → committed fallback line and audio
 ```
-
-Generation begins when the player returns the bell to the cat, hiding most API latency before the final action is chosen. API keys never enter browser code.
 
 ## Enable live generation
 
@@ -120,32 +86,16 @@ ELEVENLABS_API_KEY=
 EXORCIST_VOICE_ID=
 ```
 
-3. Start the local application server:
-
-```bash
-python3 server.py
-```
-
+3. Run `python3 server.py`.
 4. Open <http://localhost:8080>.
 
-`server.py` serves the static game and securely handles `/api/hidden-ending` in one process. API keys remain on the server and never enter browser JavaScript.
-
-Never put credentials in `game.js`, `index.html`, screenshots, or committed files. `.env` and runtime-generated audio are excluded from Git.
+API keys remain on the server and never enter browser JavaScript.
 
 ## Project structure
 
 - `index.html`, `styles.css`, `game.js` — browser game and cinematic player
 - `server.py` — local server and bounded live-generation endpoint
-- `dialogue.json` — approved dialogue, generation directions, and audio manifest
-- `audio/` — committed fixed performances; runtime audio is ignored
-- `assets/scenes/` — static scenes, supernatural keyframes, and cinematic GIFs
-- `generate_audio.py` — opt-in fixed-line ElevenLabs generator; dry-run by default
-- `make_cinematic_gifs.py` — reproducible cinematic GIF builder
-- `game-design.md` — complete narrative and interaction design
+- `dialogue.json` — approved dialogue and audio manifest
+- `audio/` — committed fixed performances
+- `game-design.md` — narrative and interaction design
 - `PROJECT-POSITIONING.md` — scope and product reasoning
-
-## Additional considerations
-
-- This is a local prototype, not a hosted service.
-- Optional dialogue variations may remain text-only; all story-critical lines are voiced.
-- The video renderer is included for reproducibility but uses optional local Python packages not required to play the game.
